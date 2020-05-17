@@ -143,6 +143,7 @@ the least important feature is 3 (Uniformity of Cell Size) """
 """         Task E          """
 
 
+
 """         Task F          """
 """
 Since PCA is based on the correlation matrix, it is better to scale the data bere processing. 
@@ -151,6 +152,30 @@ To avoid it, we have to scale all the variables to zero mean and variance of 1
 """
 """         Task G          """
 
-# lda = LinearDiscriminantAnalysis()
-#
-# lda.fit()
+iris = datasets.load_iris()
+
+X = iris.data
+y = iris.target
+
+lda = LinearDiscriminantAnalysis(n_components=1)
+mm = lda.fit(data[1:10].T, data[10].T).transform(data[1:10].T)
+colors = ['green', 'red', 'darkorange']
+lw = 2
+plt.figure()
+
+for color, i, target_name in zip(colors, [2,4], labels):
+    plt.scatter(mm[data[10] == i, 0], principal_breast_Df["pc1"].where(data[10] == i).dropna(), alpha=.8, color=color,
+                label=target_name)
+plt.legend(loc='best', shadow=False, scatterpoints=1)
+plt.title('1D-LDA vs PC1 of PCA')
+plt.show()
+
+""" 
+1. It is not possible to make 5D embedding of the data because 
+    original LDA can return only num_classes-1 projection.
+
+2. As we can see on the plot, there are some outliers in comparison of LDA and PCA, 
+    but overall both algorithms shows almost the same result
+    In general, if data is normally distributed both algorithms should return almost the same result.
+        
+"""
