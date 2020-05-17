@@ -43,13 +43,24 @@ input_file = os.path.join(DIR.RES, 'breast-cancer-wisconsin.data')
 # read data as collection of string
 mix_data = np.loadtxt(input_file, dtype=np.str, comments='#', delimiter=',').T
 
-# change all missing instances to 0 (why??)
-# also remove first and last column (id, class)
-data = np.where(mix_data == '?', 0, mix_data).astype(int)
+mix_data = np.where(mix_data== '?', np.nan, mix_data).astype(np.float)
+
+# change all missing instances to average value
+
+avgs = np.nanmean(mix_data.astype(np.float),axis=1)
+col_mean = np.nanmean(mix_data, axis=1)
+
+#Find indices that you need to replace
+inds = np.where(np.isnan(mix_data))
+
+#Place column means in the indices. Align the arrays using take
+mix_data[inds] = np.take(col_mean,inds[0])
+data = np.where(mix_data == np.nan, 0, mix_data).astype(int)
 
 
-
-
+"""
+All missing data was replaced by mean value to cause minimal noise in correlation matrix 
+"""
 
 """         Task B          """
 # Aplly PCA
@@ -77,7 +88,9 @@ plt.xlabel('components')
 plt.ylabel('total variance ratio')
 plt.show()
 
-""" To cross 90% threshold we need at least 5 first components"""
+""" 
+To cross 90% threshold we need at least 5 first components
+"""
 
 
 
@@ -109,7 +122,6 @@ plt.show()
 
 
 
-
 """         Task D          """
 pca = PCA()
 
@@ -132,21 +144,22 @@ df = pd.DataFrame(dic.items())
 print("Sorted features from most to least important \n")
 print (df)
 
-""" As Written in the output:
-the most important feature is 7 (Bare Nuclei) 
-the least important feature is 3 (Uniformity of Cell Size) """
-
+""" 
+As Written in the output:
+    the most important feature is 7 (Bare Nuclei) 
+    the least important feature is 3 (Uniformity of Cell Size) 
+"""
 
 
 
 
 """         Task E          """
 
-
+"""Not done"""
 
 """         Task F          """
 """
-Since PCA is based on the correlation matrix, it is better to scale the data bere processing. 
+Since PCA is based on the correlation matrix, it is better to scale the data before processing. 
 Without pre-processing huge variance in one variable can affect correlation matrix.
 To avoid it, we have to scale all the variables to zero mean and variance of 1
 """
@@ -154,12 +167,9 @@ To avoid it, we have to scale all the variables to zero mean and variance of 1
 
 iris = datasets.load_iris()
 
-X = iris.data
-y = iris.target
-
 lda = LinearDiscriminantAnalysis(n_components=1)
 mm = lda.fit(data[1:10].T, data[10].T).transform(data[1:10].T)
-colors = ['green', 'red', 'darkorange']
+colors = ['green', 'red']
 lw = 2
 plt.figure()
 
