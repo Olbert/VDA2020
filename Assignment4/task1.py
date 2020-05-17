@@ -157,15 +157,19 @@ As Written in the output:
 
 """Not done"""
 
+
+
 """         Task F          """
 """
 Since PCA is based on the correlation matrix, it is better to scale the data before processing. 
 Without pre-processing huge variance in one variable can affect correlation matrix.
 To avoid it, we have to scale all the variables to zero mean and variance of 1
 """
-"""         Task G          """
 
-iris = datasets.load_iris()
+
+
+
+"""         Task G          """
 
 lda = LinearDiscriminantAnalysis(n_components=1)
 mm = lda.fit(data[1:10].T, data[10].T).transform(data[1:10].T)
