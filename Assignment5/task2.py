@@ -1,30 +1,34 @@
 import numpy as np
-
-X2 = np.array(([[0, 0.12, 0.3, 1],
+# initial matrices
+X = np.array(([[0, 0.12, 0.3, 1],
                 [0.12, 0, 0.18, 0.88],
                 [0.3, 0.18, 0, 0.71],
                 [1, 0.88, 0.71, 0]]))
 
-X = np.array(([0, 0.6, 0.2, 0.4],
+X2 = np.array(([0, 0.6, 0.2, 0.4],
                [0.6, 0, 0.4, 1],
                [0.2, 0.4, 0, 0.6],
                [0.4, 1, 0.6, 0]))
 
 inp = np.array(([5, 7, 10, 8]),dtype=np.float)
 
-alpha = 0.01
+# The shift
+alpha = 0.5
 
 for ind in range(1,4):
+    # distances calculation
     dist = np.array((np.abs(inp[0] - inp),
                         np.abs(inp[1] - inp),
                         np.abs(inp[2] - inp),
                         np.abs(inp[3] - inp)))
 
+    # Left part for absolute error
     J0 = 2 / (np.power(X[0], 2).sum() +
               np.power(X[1, 1:4], 2).sum() +
               np.power(X[2, 2:4], 2).sum() +
               (np.power(X[3, 3:4], 2).sum()))
 
+    # Relative error calculation
     J = np.zeros(4, dtype=np.float)
 
     for i in range(0, 4):
@@ -35,7 +39,7 @@ for ind in range(1,4):
     print(J)
 
     print("\n")
-
+    # Shift of data
     inp -= alpha * J
 
 print(inp)
