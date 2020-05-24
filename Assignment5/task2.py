@@ -1,11 +1,12 @@
 import numpy as np
+np.set_printoptions(precision=2)
 # initial matrices
-X = np.array(([[0, 0.12, 0.3, 1],
+X2 = np.array(([[0, 0.12, 0.3, 1],
                 [0.12, 0, 0.18, 0.88],
                 [0.3, 0.18, 0, 0.71],
                 [1, 0.88, 0.71, 0]]))
 
-X2 = np.array(([0, 0.6, 0.2, 0.4],
+X = np.array(([0, 0.6, 0.2, 0.4],
                [0.6, 0, 0.4, 1],
                [0.2, 0.4, 0, 0.6],
                [0.4, 1, 0.6, 0]))
@@ -34,12 +35,16 @@ for ind in range(1,4):
     for i in range(0, 4):
         for k in range(0, 4):
             if i != k:
-                J[i] += ((dist[i, k] - X[i, k]) / np.power(X[i, k], 2)) * ((inp[i] - inp[k]) / dist[i, k])
-
+                # J[i] += ((dist[i, k] - X[i, k]) / np.power(X[i, k], 2)) * ((inp[i] - inp[k]) / dist[i, k])
+                J[i] += (dist[i, k] - X[i, k]) * ((inp[i] - inp[k]) / dist[i, k])
+                # print((dist[i, k], '-', X[i, k]), '*', ((inp[i] ,'-', inp[k]) ,'/', dist[i, k]))
+    print(J)
+    J = J*J0
     print(J)
 
     # Shift of dataK
     inp -= alpha * J
+    print(inp)
 print("Data:")
 print(inp)
 
