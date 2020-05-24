@@ -14,7 +14,7 @@ inp = np.array(([5, 7, 10, 8]),dtype=np.float)
 
 # The shift
 alpha = 0.5
-
+print("Errors:")
 for ind in range(1,4):
     # distances calculation
     dist = np.array((np.abs(inp[0] - inp),
@@ -38,9 +38,8 @@ for ind in range(1,4):
 
     print(J)
 
-    print("\n")
-    # Shift of data
+    # Shift of dataK
     inp -= alpha * J
-
+print("Data:")
 print(inp)
 
